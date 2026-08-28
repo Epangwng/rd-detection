@@ -38,11 +38,12 @@ class SynchronizedAugmentation(layers.Layer):
         return config
 
 # Model paths
+base_dir = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATHS = {
-    'convnext_binary': r"d:\SKRIPSI\web_app\modelkeras\ConvNextTiny_Binary.keras",
-    'convnext_multi': r"d:\SKRIPSI\web_app\modelkeras\ConvNeXtTiny_OriginalFix lr4.keras",
-    'effnet_binary': r"d:\SKRIPSI\web_app\modelkeras\EfficientNetV2S_Binary.keras",
-    'effnet_multi': r"d:\SKRIPSI\web_app\modelkeras\EfficientNetV2S_OriginalFix lr4.keras"
+    'convnext_binary': os.path.join(base_dir, 'modelkeras', 'ConvNextTiny_Binary.keras'),
+    'convnext_multi': os.path.join(base_dir, 'modelkeras', 'ConvNeXtTiny_OriginalFix lr4.keras'),
+    'effnet_binary': os.path.join(base_dir, 'modelkeras', 'EfficientNetV2S_Binary.keras'),
+    'effnet_multi': os.path.join(base_dir, 'modelkeras', 'EfficientNetV2S_OriginalFix lr4.keras')
 }
 
 custom_objects = {"SynchronizedAugmentation": SynchronizedAugmentation}
