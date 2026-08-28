@@ -19,9 +19,9 @@ class SynchronizedAugmentation(layers.Layer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.augmenter = tf.keras.Sequential([
-            layers.RandomFlip("horizontal_and_vertical"),
-            layers.RandomRotation(factor=15.0/360.0),
-            layers.RandomZoom(height_factor=(-0.2, 0.2))
+            layers.RandomZoom(height_factor=(-0.2, 0.2)),
+            layers.RandomBrightness(factor=0.2),
+            layers.RandomContrast(factor=0.2)
         ])
 
     def call(self, plain_img, coye_img, training=False):
