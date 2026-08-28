@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetic Retinopathy Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="/" class="active">Beranda</a>
+        <a href="/about">Tentang Retinopati Diabetik</a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-eye"></i>
+            </div>
+            <h1>DETEKSI RETINOPATI DIABETIK PADA CITRA FUNDUS MENGGUNAKAN ARSITEKTUR EFFICIENTNETV2-S DAN CONVNEXTTINY DENGAN PRAPEMROSESAN BERBASIS ALGORITMA TYLER COYE</h1>
+            <p>Binary & Multi-Class Classification</p>
+        </header>
+
+        <main class="panel">
+            <div class="controls-section">
+                <label for="model-select">Select Diagnostic Model:</label>
+                <div class="custom-select-wrapper">
+                    <select id="model-select" name="model">
+                        <option value="convnext_binary">ConvNeXtTiny (Binary)</option>
+                        <option value="convnext_multi">ConvNeXtTiny (Multi-Class)</option>
+                        <option value="effnet_binary">EfficientNetV2-S (Binary)</option>
+                        <option value="effnet_multi">EfficientNetV2-S (Multi-Class)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="upload-section" id="drop-zone">
+                <input type="file" id="file-input" accept="image/*" multiple hidden>
+                <div class="upload-content">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <h3>Upload Fundus Image</h3>
+                    <p>Drag and drop your retinal image here, or click to browse.</p>
+                </div>
+            </div>
+
+            <!-- Image Preview Section -->
+            <div id="preview-section" class="hidden">
+                <div class="preview-info" style="text-align:center; margin-bottom: 1.5rem;">
+                    <h3 id="preview-count" style="color:var(--primary);">0 Image(s) Selected</h3>
+                    <p style="color:var(--text-muted); margin-top:0.5rem;">Ready for batch analysis</p>
+                </div>
+                <button id="analyze-btn" class="glow-on-hover">Analyze Retina</button>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader" class="hidden">
+                <div class="spinner"></div>
+                <p>Extracting Coye Filter Features & Running Inference...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="hidden">
+                <div class="results-header">
+                    <h2>Batch Diagnostic Report</h2>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Grad-CAM</th>
+                                <th>Filename</th>
+                                <th>Prediction</th>
+                                <th>Confidence</th>
+                                <th>Probabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="reset-btn" class="secondary-btn"><i class="fa-solid fa-rotate-right"></i> Test Another Batch</button>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 Universitas Dipa Makassar</p>
+        </footer>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="modal hidden">
+        <span class="close-modal" id="close-modal">&times;</span>
+        <img class="modal-content" id="modal-img">
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewSection = document.getElementById('preview-section');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const loader = document.getElementById('loader');
+        const resultsSection = document.getElementById('results-section');
+        const resetBtn = document.getElementById('reset-btn');
+
+        let selectedFiles = [];
+
+        // Handle Drag & Drop
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) handleFiles(fileInput.files);
+        });
+
+        function handleFiles(files) {
+            let validFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+            if (validFiles.length === 0) {
+                alert('Please upload image files only.');
+                return;
+            }
+            selectedFiles = validFiles;
+            document.getElementById('preview-count').textContent = `${selectedFiles.length} Image(s) Selected`;
+            dropZone.classList.add('hidden');
+            previewSection.classList.remove('hidden');
+        }
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFiles.length) return;
+
+            previewSection.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            const formData = new FormData();
+            selectedFiles.forEach(file => {
+                formData.append('files[]', file);
+            });
+            formData.append('model', document.getElementById('model-select').value);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Server error');
+                }
+
+                showResults(data.results);
+            } catch (err) {
+                alert('Analysis Failed: ' + err.message);
+                loader.classList.add('hidden');
+                previewSection.classList.remove('hidden');
+            }
+        });
+
+        function showResults(resultsArray) {
+            sessionStorage.setItem('dr_results', JSON.stringify(resultsArray));
+            
+            loader.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+
+            const tbody = document.getElementById('results-tbody');
+            tbody.innerHTML = '';
+
+            resultsArray.forEach(res => {
+                const tr = document.createElement('tr');
+                let badgeClass = (res.prediction.includes("No RD") || res.prediction.includes("No DR")) ? "badge-normal" : "badge-dr";
+                
+                let probHtml = '<div style="font-size: 0.8rem; text-align: left; line-height: 1.4;">';
+                for (const [cls, prob] of Object.entries(res.probabilities)) {
+                    probHtml += `<div><strong>${cls}:</strong> ${prob}</div>`;
+                }
+                probHtml += '</div>';
+
+                tr.innerHTML = `
+                    <td><img src="${res.orig_image_url}" class="thumb-img" alt="thumb" onclick="openModal(this.src)" style="cursor:pointer;"></td>
+                    <td><img src="${res.gradcam_image_url}" class="thumb-img" alt="gradcam" onclick="openModal(this.src)" style="cursor:pointer;"></td>
+                    <td>${res.filename}</td>
+                    <td><span class="badge ${badgeClass}" style="font-size:0.9rem; padding:0.3rem 0.8rem;">${res.prediction}</span></td>
+                    <td><span style="font-weight: bold; color: var(--primary);">${res.confidence}</span></td>
+                    <td>${probHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        resetBtn.addEventListener('click', () => {
+            selectedFiles = [];
+            fileInput.value = "";
+            resultsSection.classList.add('hidden');
+            dropZone.classList.remove('hidden');
+            sessionStorage.removeItem('dr_results');
+        });
+
+        // Load saved results on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedResults = sessionStorage.getItem('dr_results');
+            if (savedResults) {
+                try {
+                    const parsed = JSON.parse(savedResults);
+                    if (parsed && parsed.length > 0) {
+                        dropZone.classList.add('hidden');
+                        showResults(parsed);
+                    }
+                } catch (e) {
+                    console.error("Could not load saved results");
+                }
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-img");
+        const closeModal = document.getElementById("close-modal");
+
+        function openModal(imgSrc) {
+            modal.classList.remove('hidden');
+            modalImg.src = imgSrc;
+        }
+
+        closeModal.onclick = function() {
+            modal.classList.add('hidden');
+        }
+
+        modal.onclick = function(e) {
+            if (e.target !== modalImg) {
+                modal.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
