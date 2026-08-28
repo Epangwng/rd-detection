@@ -1,0 +1,8 @@
+[phases.build]
+cmds = [
+  "echo 'Downloading models from Git LFS...'",
+  "curl -L -o modelkeras/ConvNextTiny_Binary.keras https://github.com/Epangwng/rd-detection/raw/master/modelkeras/ConvNextTiny_Binary.keras",
+  "curl -L -o 'modelkeras/ConvNeXtTiny_OriginalFix lr4.keras' 'https://github.com/Epangwng/rd-detection/raw/master/modelkeras/ConvNeXtTiny_OriginalFix lr4.keras'",
+  "curl -L -o modelkeras/EfficientNetV2S_Binary.keras https://github.com/Epangwng/rd-detection/raw/master/modelkeras/EfficientNetV2S_Binary.keras",
+  "curl -L -o 'modelkeras/EfficientNetV2S_OriginalFix lr4.keras' 'https://github.com/Epangwng/rd-detection/raw/master/modelkeras/EfficientNetV2S_OriginalFix lr4.keras'"
+]
