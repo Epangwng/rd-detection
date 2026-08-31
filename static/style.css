@@ -323,6 +323,11 @@ body {
     color: #065F46;
 }
 
+.badge-dr {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
 .badge-mild {
     background: #FEF3C7;
     color: #92400E;
@@ -333,14 +338,9 @@ body {
     color: #9A3412;
 }
 
-.badge-severe {
+.badge-severe, .badge-pdr {
     background: #FEE2E2;
     color: #991B1B;
-}
-
-.badge-pdr {
-    background: #F3E8FF;
-    color: #6B21A8;
 }
 
 .confidence-val {

@@ -187,14 +187,14 @@
                 let badgeClass = 'badge-normal';
                 let predText = res.prediction;
 
-                if (predText.includes('Mild')) {
+                if (predText.includes('No RD') || predText.includes('No DR') || predText.includes('Normal')) {
+                    badgeClass = 'badge-normal'; // Hijau
+                } else if (predText.includes('Mild')) {
                     badgeClass = 'badge-mild';
                 } else if (predText.includes('Moderate')) {
                     badgeClass = 'badge-moderate';
-                } else if (predText.includes('Severe')) {
-                    badgeClass = 'badge-severe';
-                } else if (predText.includes('Proliferative') || predText.includes('Diabetic Retinopathy (RD)')) {
-                    badgeClass = 'badge-pdr';
+                } else {
+                    badgeClass = 'badge-dr'; // Merah
                 }
 
                 let probRowsHtml = '';
