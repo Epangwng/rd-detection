@@ -22,6 +22,10 @@ pic_code/
 *.jpg
 *.png
 
+# Models
+modelkeras/
+*.keras
+
 # OS generated files
 .DS_Store
 Thumbs.db
