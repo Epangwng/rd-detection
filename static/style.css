@@ -96,6 +96,17 @@ body {
     letter-spacing: -0.02em;
 }
 
+.skripsi-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin-top: 0.4rem;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Main Card */
 .main-card {
     background: var(--card-bg);
