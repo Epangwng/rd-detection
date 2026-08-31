@@ -15,6 +15,7 @@ app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Define the custom augmentation layer required for loading the models
+@tf.keras.utils.register_keras_serializable(name="SynchronizedAugmentation")
 class SynchronizedAugmentation(layers.Layer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
