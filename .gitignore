@@ -23,7 +23,8 @@ pic_code/
 *.png
 
 # Models
-modelkeras/
+modelkeras/*
+!modelkeras/.gitkeep
 *.keras
 
 # OS generated files
