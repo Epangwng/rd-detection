@@ -1,6 +1,5 @@
 flask
 tensorflow
-keras
 opencv-python-headless
 scikit-image
 scikit-learn

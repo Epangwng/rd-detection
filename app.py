@@ -63,7 +63,11 @@ def get_model(choice):
     if loaded_models[choice] is None:
         print(f"Lazy loading model: {choice}...")
         try:
-            loaded_models[choice] = tf.keras.models.load_model(MODEL_PATHS[choice], custom_objects=custom_objects)
+            loaded_models[choice] = tf.keras.models.load_model(
+                MODEL_PATHS[choice],
+                custom_objects=custom_objects,
+                compile=False
+            )
             print(f"{choice} model loaded successfully.")
         except Exception as e:
             print(f"Error loading {choice}: {e}")
