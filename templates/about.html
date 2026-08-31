@@ -3,68 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Edukasi Retinopati Diabetik - RetinaAI</title>
+    <title>Tentang Retinopati Diabetik</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Sticky Mobile App Bar -->
+    <!-- Centered Navbar -->
     <header class="navbar-container">
-        <nav class="navbar">
-            <a href="/" class="nav-brand">
-                <i class="fa-solid fa-eye"></i>
-                <span>RetinaAI</span>
-            </a>
-            <div class="nav-links">
-                <a href="/" class="nav-item"><i class="fa-solid fa-house"></i> Beranda</a>
-                <a href="/about" class="nav-item active"><i class="fa-solid fa-circle-info"></i> Edukasi</a>
-            </div>
+        <nav class="nav-links">
+            <a href="/" class="nav-item">Beranda</a>
+            <a href="/about" class="nav-item active">Tentang RD</a>
         </nav>
     </header>
 
     <main class="container">
-        <div class="hero-header" style="margin-bottom: 1.25rem;">
-            <div class="hero-badge">
-                <i class="fa-solid fa-book-medical"></i> Pusat Informasi Medis
-            </div>
-            <h1>Tentang <span>Retinopati Diabetik</span></h1>
-            <p>Pelajari penyebab, gejala klinis, tahapan perkembangan, serta pentingnya deteksi dini berbasis AI.</p>
+        <div class="hero-header">
+            <h1>Tentang Retinopati Diabetik</h1>
         </div>
 
         <section class="about-card">
-            <h2><i class="fa-solid fa-stethoscope"></i> Apa itu Retinopati Diabetik?</h2>
-            <p><strong>Retinopati Diabetik (RD)</strong> adalah komplikasi mikrovaskular serius akibat diabetes melitus jangka panjang. Kadar glukosa darah tinggi yang tidak terkontrol secara perlahan merusak dinding pembuluh darah kapiler di retina — jaringan peka cahaya di bagian belakang bola mata.</p>
+            <h2>Pengertian</h2>
+            <p><strong>Retinopati Diabetik (RD)</strong> adalah komplikasi mikrovaskular akibat diabetes melitus jangka panjang. Kadar glukosa darah tinggi merusak pembuluh darah kapiler di retina — jaringan peka cahaya di bagian belakang bola mata.</p>
 
-            <h2><i class="fa-solid fa-microchip"></i> Peran Algoritma Tyler Coye & Dual-Stream AI</h2>
-            <p>Pada aplikasi ini, sistem menerapkan <strong>Algoritma Tyler Coye</strong> untuk mensegmentasi dan menonjolkan struktur pembuluh darah retina (vascular tree). Fitur citra asli dan citra tersegmentasi diproses secara simultan menggunakan jaringan saraf tiruan (Dual-Stream <em>ConvNeXt-Tiny</em> atau <em>EfficientNetV2-S</em>) untuk menghasilkan akurasi diagnostik yang optimal.</p>
+            <h2>Prapemrosesan & Deep Learning</h2>
+            <p>Sistem ini menerapkan algoritma Tyler Coye untuk mensegmentasi struktur pembuluh darah retina. Fitur citra asli dan citra tersegmentasi diproses secara simultan menggunakan arsitektur Dual-Stream (ConvNeXt-Tiny atau EfficientNetV2-S).</p>
 
-            <h2><i class="fa-solid fa-triangle-exclamation"></i> Gejala yang Perlu Diwaspadai</h2>
-            <p>Pada fase awal, retinopati sering kali bersifat asimtomatik (tanpa keluhan). Namun seiring berjalannya kerusakan, penderita dapat mengalami:</p>
+            <h2>Gejala Klinis</h2>
             <ul>
                 <li>Penglihatan buram atau berfluktuasi.</li>
-                <li>Munculnya <em>floaters</em> (bintik-bintik gelap melayang).</li>
-                <li>Penurunan persepsi kontras dan kemampuan membedakan warna.</li>
-                <li>Area gelap atau bintik buta (skotoma) pada lapang pandang.</li>
+                <li>Munculnya floaters (bintik-bintik gelap melayang).</li>
+                <li>Penurunan persepsi kontras warna.</li>
+                <li>Bintik buta pada lapang pandang.</li>
             </ul>
 
-            <h2><i class="fa-solid fa-layer-group"></i> Klasifikasi Tingkat Keparahan (5 Kelas)</h2>
+            <h2>Tingkat Keparahan</h2>
             <ol>
-                <li><strong>No DR (Normal):</strong> Tidak ditemukan lesi mikroaneurisma atau pendarahan.</li>
-                <li><strong>Mild NPDR:</strong> Ditemukan mikroaneurisma ringan pada pembuluh darah kapiler.</li>
-                <li><strong>Moderate NPDR:</strong> Terjadi pendarahan mikro lebih luas dan pembentukan eksudat keras/lembut.</li>
-                <li><strong>Severe NPDR:</strong> Pendarahan luas di 4 kuadran retina atau kelainan mikrovaskular intraretina (IRMA).</li>
-                <li><strong>Proliferative DR (PDR):</strong> Terbentuknya pembuluh darah baru (neovaskularisasi) yang rapuh dan berisiko tinggi menyebabkan ablasio retina.</li>
+                <li><strong>No DR (Normal):</strong> Tidak ditemukan lesi mikroaneurisma.</li>
+                <li><strong>Mild NPDR:</strong> Ditemukan mikroaneurisma ringan.</li>
+                <li><strong>Moderate NPDR:</strong> Pendarahan mikro dan eksudat.</li>
+                <li><strong>Severe NPDR:</strong> Pendarahan luas di kuadran retina.</li>
+                <li><strong>Proliferative DR (PDR):</strong> Pembentukan pembuluh darah baru yang abnormal (neovaskularisasi).</li>
             </ol>
 
-            <a href="/" class="btn-primary" style="text-decoration:none; margin-top:1.5rem;">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Diagnosis
+            <a href="/" class="btn-primary" style="display:block; text-align:center; text-decoration:none; margin-top:1.5rem;">
+                Kembali ke Beranda
             </a>
         </section>
 
         <footer>
-            <p>&copy; 2026 Universitas Dipa Makassar &bull; Diabetic Retinopathy Diagnostic System</p>
+            <p>&copy; 2026 Universitas Dipa Makassar</p>
         </footer>
     </main>
 
