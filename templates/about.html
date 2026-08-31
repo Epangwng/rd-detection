@@ -2,62 +2,71 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tentang Retinopati Diabetik</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Edukasi Retinopati Diabetik - RetinaAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="main-nav">
-        <a href="/">Beranda</a>
-        <a href="/about" class="active">Tentang Retinopati Diabetik</a>
-    </nav>
 
-    <div class="container" style="max-width: 1000px;">
-        <main class="panel about-page">
-            <header class="about-header">
-                <h1>Apa itu Retinopati Diabetik?</h1>
-                
-            </header>
-            
-            <div class="about-content">
-                <section>
-                    <h2>Pengertian Retinopati Diabetik</h2>
-                    <p><strong>Retinopati Diabetik</strong> adalah salah satu komplikasi jangka panjang dari penyakit diabetes melitus (kencing manis). Kondisi ini terjadi ketika kadar gula darah yang tinggi secara perlahan-lahan merusak pembuluh darah kecil yang menyuplai nutrisi dan oksigen ke retina — bagian belakang mata yang sensitif terhadap cahaya.</p>
-                </section>
-                
-                <section>
-                    <h2>Bagaimana Hal Ini Terjadi?</h2>
-                    <p>Retina bertugas menangkap cahaya dan mengirimkan sinyal visual ke otak. Saat pembuluh darah di retina rusak akibat tingginya glukosa darah, pembuluh tersebut bisa membengkak, bocor, atau bahkan tersumbat sepenuhnya. Untuk mengompensasi hal tersebut, mata sering kali mencoba menumbuhkan pembuluh darah baru (neovaskularisasi). Sayangnya, pembuluh darah baru ini sangat rapuh dan mudah pecah, yang dapat menyebabkan pendarahan ke dalam mata dan memicu terbentuknya jaringan parut.</p>
-                </section>
-
-                <section>
-                    <h2>Gejala Retinopati Diabetik</h2>
-                    <p>Pada tahap awal, retinopati diabetik sering kali tidak menunjukkan gejala apa pun. Namun seiring berjalannya waktu, penderita dapat mengalami:</p>
-                    <ul>
-                        <li>Penglihatan kabur atau berfluktuasi.</li>
-                        <li>Melihat "floaters" atau bintik-bintik gelap yang melayang pada pandangan.</li>
-                        <li>Kesulitan membedakan warna dengan jelas.</li>
-                        <li>Bintik kosong atau area gelap di tengah penglihatan.</li>
-                        <li>Kehilangan penglihatan mendadak atau kebutaan permanen (pada tahap sangat parah).</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Tahapan Penyakit</h2>
-                    <p>Penyakit ini umumnya dibagi menjadi dua tahapan utama:</p>
-                    <ol>
-                        <li><strong>Nonproliferative Diabetic Retinopathy (NPDR)</strong>: Tahap awal di mana pembuluh darah kecil mulai melemah, bocor (membentuk eksudat), dan membengkak. Pendarahan kecil di retina juga mulai terjadi.</li>
-                        <li><strong>Proliferative Diabetic Retinopathy (PDR)</strong>: Tahap lanjut di mana sirkulasi darah yang sangat buruk memicu pertumbuhan pembuluh darah baru yang abnormal. Pendarahan di vitreous (cairan bening di tengah mata) dan tarikan pada retina dapat menyebabkan ablasio retina (retina lepas).</li>
-                    </ol>
-                </section>
-
-                <section>
-                    <h2>Pentingnya Deteksi Dini</h2>
-                    <p>Deteksi dini sangatlah krusial. Kerusakan mata akibat retinopati diabetik sering kali bersifat permanen dan tidak dapat dipulihkan. Oleh karena itu, pasien diabetes sangat disarankan untuk melakukan skrining mata (pemeriksaan fundus) setidaknya satu tahun sekali</section>
+    <!-- Sticky Mobile App Bar -->
+    <header class="navbar-container">
+        <nav class="navbar">
+            <a href="/" class="nav-brand">
+                <i class="fa-solid fa-eye"></i>
+                <span>RetinaAI</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-item"><i class="fa-solid fa-house"></i> Beranda</a>
+                <a href="/about" class="nav-item active"><i class="fa-solid fa-circle-info"></i> Edukasi</a>
             </div>
-        </main>
-    </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero-header" style="margin-bottom: 1.25rem;">
+            <div class="hero-badge">
+                <i class="fa-solid fa-book-medical"></i> Pusat Informasi Medis
+            </div>
+            <h1>Tentang <span>Retinopati Diabetik</span></h1>
+            <p>Pelajari penyebab, gejala klinis, tahapan perkembangan, serta pentingnya deteksi dini berbasis AI.</p>
+        </div>
+
+        <section class="about-card">
+            <h2><i class="fa-solid fa-stethoscope"></i> Apa itu Retinopati Diabetik?</h2>
+            <p><strong>Retinopati Diabetik (RD)</strong> adalah komplikasi mikrovaskular serius akibat diabetes melitus jangka panjang. Kadar glukosa darah tinggi yang tidak terkontrol secara perlahan merusak dinding pembuluh darah kapiler di retina — jaringan peka cahaya di bagian belakang bola mata.</p>
+
+            <h2><i class="fa-solid fa-microchip"></i> Peran Algoritma Tyler Coye & Dual-Stream AI</h2>
+            <p>Pada aplikasi ini, sistem menerapkan <strong>Algoritma Tyler Coye</strong> untuk mensegmentasi dan menonjolkan struktur pembuluh darah retina (vascular tree). Fitur citra asli dan citra tersegmentasi diproses secara simultan menggunakan jaringan saraf tiruan (Dual-Stream <em>ConvNeXt-Tiny</em> atau <em>EfficientNetV2-S</em>) untuk menghasilkan akurasi diagnostik yang optimal.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> Gejala yang Perlu Diwaspadai</h2>
+            <p>Pada fase awal, retinopati sering kali bersifat asimtomatik (tanpa keluhan). Namun seiring berjalannya kerusakan, penderita dapat mengalami:</p>
+            <ul>
+                <li>Penglihatan buram atau berfluktuasi.</li>
+                <li>Munculnya <em>floaters</em> (bintik-bintik gelap melayang).</li>
+                <li>Penurunan persepsi kontras dan kemampuan membedakan warna.</li>
+                <li>Area gelap atau bintik buta (skotoma) pada lapang pandang.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-layer-group"></i> Klasifikasi Tingkat Keparahan (5 Kelas)</h2>
+            <ol>
+                <li><strong>No DR (Normal):</strong> Tidak ditemukan lesi mikroaneurisma atau pendarahan.</li>
+                <li><strong>Mild NPDR:</strong> Ditemukan mikroaneurisma ringan pada pembuluh darah kapiler.</li>
+                <li><strong>Moderate NPDR:</strong> Terjadi pendarahan mikro lebih luas dan pembentukan eksudat keras/lembut.</li>
+                <li><strong>Severe NPDR:</strong> Pendarahan luas di 4 kuadran retina atau kelainan mikrovaskular intraretina (IRMA).</li>
+                <li><strong>Proliferative DR (PDR):</strong> Terbentuknya pembuluh darah baru (neovaskularisasi) yang rapuh dan berisiko tinggi menyebabkan ablasio retina.</li>
+            </ol>
+
+            <a href="/" class="btn-primary" style="text-decoration:none; margin-top:1.5rem;">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Diagnosis
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Universitas Dipa Makassar &bull; Diabetic Retinopathy Diagnostic System</p>
+        </footer>
+    </main>
+
 </body>
 </html>
