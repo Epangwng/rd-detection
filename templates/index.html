@@ -1,88 +1,103 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Deteksi Retinopati Diabetik</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetic Retinopathy Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Centered Navbar -->
-    <header class="navbar-container">
-        <nav class="nav-links">
-            <a href="/" class="nav-item active">Beranda</a>
-            <a href="/about" class="nav-item">Tentang RD</a>
-        </nav>
-    </header>
+    <nav class="main-nav">
+        <a href="/" class="active">Beranda</a>
+        <a href="/about">Tentang Retinopati Diabetik</a>
+    </nav>
 
-    <main class="container">
-        <!-- Header with Skripsi Title -->
-        <div class="hero-header">
-            <h1>Deteksi Retinopati Diabetik</h1>
-            <p class="skripsi-title">Deteksi Retinopati Diabetik pada Citra Fundus Menggunakan Arsitektur EfficientNetV2-S dan ConvNeXtTiny dengan Prapemrosesan Berbasis Algoritma Tyler Coye</p>
-        </div>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-eye"></i>
+            </div>
+            <h1>DETEKSI RETINOPATI DIABETIK PADA CITRA FUNDUS MENGGUNAKAN ARSITEKTUR EFFICIENTNETV2-S DAN CONVNEXTTINY DENGAN PRAPEMROSESAN BERBASIS ALGORITMA TYLER COYE</h1>
+            <p>Binary & Multi-Class Classification</p>
+        </header>
 
-        <!-- Main Card -->
-        <section class="main-card">
-            <!-- Model Selection Dropdown -->
-            <div class="control-group">
-                <label for="model-select" class="control-label">Pilih Model</label>
-                <div class="select-wrapper">
-                    <select id="model-select" class="custom-select">
-                        <option value="convnext_binary">ConvNeXt-Tiny (Binary)</option>
-                        <option value="convnext_multi">ConvNeXt-Tiny (Multi-Class)</option>
+        <main class="panel">
+            <div class="controls-section">
+                <label for="model-select">Select Diagnostic Model:</label>
+                <div class="custom-select-wrapper">
+                    <select id="model-select" name="model">
+                        <option value="convnext_binary">ConvNeXtTiny (Binary)</option>
+                        <option value="convnext_multi">ConvNeXtTiny (Multi-Class)</option>
                         <option value="effnet_binary">EfficientNetV2-S (Binary)</option>
                         <option value="effnet_multi">EfficientNetV2-S (Multi-Class)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Upload Area -->
-            <div class="control-group">
-                <label class="control-label">Unggah Citra</label>
-                <div class="upload-box" id="drop-zone">
-                    <input type="file" id="file-input" accept="image/*" multiple hidden>
-                    <h3>Pilih Citra Fundus</h3>
-                    <p>Ketuk untuk memilih atau tarik file ke sini</p>
+            <div class="upload-section" id="drop-zone">
+                <input type="file" id="file-input" accept="image/*" multiple hidden>
+                <div class="upload-content">
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                    <h3>Upload Fundus Image</h3>
+                    <p>Drag and drop your retinal image here, or click to browse.</p>
                 </div>
             </div>
 
-            <!-- Selected File Preview Bar -->
-            <div id="preview-section" class="preview-container hidden">
-                <div class="preview-count" id="preview-count">0 Citra Dipilih</div>
-                <button id="analyze-btn" class="btn-primary" type="button">Mulai Analisis</button>
+            <!-- Image Preview Section -->
+            <div id="preview-section" class="hidden">
+                <div class="preview-info" style="text-align:center; margin-bottom: 1.5rem;">
+                    <h3 id="preview-count" style="color:var(--primary);">0 Image(s) Selected</h3>
+                    <p style="color:var(--text-muted); margin-top:0.5rem;">Ready for batch analysis</p>
+                </div>
+                <button id="analyze-btn" class="glow-on-hover">Analyze Retina</button>
             </div>
 
-            <!-- Loading Spinner -->
-            <div id="loader" class="loading-wrapper hidden">
+            <!-- Loader -->
+            <div id="loader" class="hidden">
                 <div class="spinner"></div>
-                <div class="loading-text">Sedang Menganalisis...</div>
+                <p>Extracting Coye Filter Features & Running Inference...</p>
             </div>
 
-            <!-- Diagnostic Results Section -->
+            <!-- Results Section -->
             <div id="results-section" class="hidden">
                 <div class="results-header">
-                    <h2>Hasil Analisis</h2>
-                    <button id="reset-btn" class="btn-secondary" type="button">Uji Citra Lain</button>
+                    <h2>Batch Diagnostic Report</h2>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Grad-CAM</th>
+                                <th>Filename</th>
+                                <th>Prediction</th>
+                                <th>Confidence</th>
+                                <th>Probabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
                 </div>
 
-                <div id="results-cards-list">
-                    <!-- Dynamic cards populated by JS -->
-                </div>
+                <button id="reset-btn" class="secondary-btn"><i class="fa-solid fa-rotate-right"></i> Test Another Batch</button>
             </div>
-        </section>
-
+        </main>
+        
         <footer>
             <p>&copy; 2026 Universitas Dipa Makassar</p>
         </footer>
-    </main>
+    </div>
 
-    <!-- Fullscreen Image Modal -->
+    <!-- Image Modal -->
     <div id="image-modal" class="modal hidden">
         <span class="close-modal" id="close-modal">&times;</span>
-        <img class="modal-content" id="modal-img" alt="Tampilan Penuh">
+        <img class="modal-content" id="modal-img">
     </div>
 
     <script>
@@ -92,54 +107,40 @@
         const analyzeBtn = document.getElementById('analyze-btn');
         const loader = document.getElementById('loader');
         const resultsSection = document.getElementById('results-section');
-        const resultsList = document.getElementById('results-cards-list');
         const resetBtn = document.getElementById('reset-btn');
-        const modelSelect = document.getElementById('model-select');
 
         let selectedFiles = [];
 
-        // Drag & Drop / File Input
+        // Handle Drag & Drop
         dropZone.addEventListener('click', () => fileInput.click());
-        
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
         });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-            });
-        });
-
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
         dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
             if (e.dataTransfer.files.length) {
                 handleFiles(e.dataTransfer.files);
             }
         });
-
         fileInput.addEventListener('change', () => {
-            if (fileInput.files.length) {
-                handleFiles(fileInput.files);
-            }
+            if (fileInput.files.length) handleFiles(fileInput.files);
         });
 
         function handleFiles(files) {
             let validFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
             if (validFiles.length === 0) {
-                alert('Mohon unggah file format gambar (JPG/PNG).');
+                alert('Please upload image files only.');
                 return;
             }
             selectedFiles = validFiles;
-            document.getElementById('preview-count').textContent = `${selectedFiles.length} Citra Dipilih`;
+            document.getElementById('preview-count').textContent = `${selectedFiles.length} Image(s) Selected`;
             dropZone.classList.add('hidden');
             previewSection.classList.remove('hidden');
         }
 
-        // Analyze Request
         analyzeBtn.addEventListener('click', async () => {
             if (!selectedFiles.length) return;
 
@@ -150,7 +151,7 @@
             selectedFiles.forEach(file => {
                 formData.append('files[]', file);
             });
-            formData.append('model', modelSelect.value);
+            formData.append('model', document.getElementById('model-select').value);
 
             try {
                 const response = await fetch('/predict', {
@@ -161,95 +162,57 @@
                 const data = await response.json();
                 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Terjadi kesalahan pada server');
+                    throw new Error(data.error || 'Server error');
                 }
 
                 showResults(data.results);
             } catch (err) {
-                alert('Analisis Gagal: ' + err.message);
+                alert('Analysis Failed: ' + err.message);
                 loader.classList.add('hidden');
                 previewSection.classList.remove('hidden');
             }
         });
 
-        // Render Results as Minimalist Mobile Cards
         function showResults(resultsArray) {
             sessionStorage.setItem('dr_results', JSON.stringify(resultsArray));
             
             loader.classList.add('hidden');
             resultsSection.classList.remove('hidden');
-            resultsList.innerHTML = '';
 
-            resultsArray.forEach((res) => {
-                const card = document.createElement('div');
-                card.className = 'result-card';
+            const tbody = document.getElementById('results-tbody');
+            tbody.innerHTML = '';
 
-                let badgeClass = 'badge-normal';
-                let predText = res.prediction;
-
-                if (predText.includes('No RD') || predText.includes('No DR') || predText.includes('Normal')) {
-                    badgeClass = 'badge-normal'; // Hijau
-                } else if (predText.includes('Mild')) {
-                    badgeClass = 'badge-mild';
-                } else if (predText.includes('Moderate')) {
-                    badgeClass = 'badge-moderate';
-                } else {
-                    badgeClass = 'badge-dr'; // Merah
-                }
-
-                let probRowsHtml = '';
+            resultsArray.forEach(res => {
+                const tr = document.createElement('tr');
+                let badgeClass = (res.prediction.includes("No RD") || res.prediction.includes("No DR")) ? "badge-normal" : "badge-dr";
+                
+                let probHtml = '<div style="font-size: 0.8rem; text-align: left; line-height: 1.4;">';
                 for (const [cls, prob] of Object.entries(res.probabilities)) {
-                    probRowsHtml += `
-                        <div class="prob-row">
-                            <span class="prob-label">${cls}</span>
-                            <span class="prob-score">${prob}</span>
-                        </div>
-                    `;
+                    probHtml += `<div><strong>${cls}:</strong> ${prob}</div>`;
                 }
+                probHtml += '</div>';
 
-                card.innerHTML = `
-                    <div class="result-meta">
-                        <div class="result-filename">${res.filename}</div>
-                        <div class="result-status-row">
-                            <span class="badge ${badgeClass}">${res.prediction}</span>
-                            <span class="confidence-val">${res.confidence}</span>
-                        </div>
-                    </div>
-
-                    <div class="result-images-row">
-                        <div class="result-image-box" onclick="openModal('${res.orig_image_url}')">
-                            <img src="${res.orig_image_url}" alt="Citra Asli" loading="lazy">
-                            <span class="result-image-badge">Citra Asli</span>
-                        </div>
-                        <div class="result-image-box" onclick="openModal('${res.gradcam_image_url}')">
-                            <img src="${res.gradcam_image_url}" alt="Grad-CAM" loading="lazy">
-                            <span class="result-image-badge">Grad-CAM</span>
-                        </div>
-                    </div>
-
-                    <div class="prob-details-box">
-                        ${probRowsHtml}
-                    </div>
+                tr.innerHTML = `
+                    <td><img src="${res.orig_image_url}" class="thumb-img" alt="thumb" onclick="openModal(this.src)" style="cursor:pointer;"></td>
+                    <td><img src="${res.gradcam_image_url}" class="thumb-img" alt="gradcam" onclick="openModal(this.src)" style="cursor:pointer;"></td>
+                    <td>${res.filename}</td>
+                    <td><span class="badge ${badgeClass}" style="font-size:0.9rem; padding:0.3rem 0.8rem;">${res.prediction}</span></td>
+                    <td><span style="font-weight: bold; color: var(--primary);">${res.confidence}</span></td>
+                    <td>${probHtml}</td>
                 `;
-
-                resultsList.appendChild(card);
+                tbody.appendChild(tr);
             });
-
-            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Reset Handler
         resetBtn.addEventListener('click', () => {
             selectedFiles = [];
             fileInput.value = "";
             resultsSection.classList.add('hidden');
             dropZone.classList.remove('hidden');
-            previewSection.classList.add('hidden');
             sessionStorage.removeItem('dr_results');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Load cached results
+        // Load saved results on page load
         window.addEventListener('DOMContentLoaded', () => {
             const savedResults = sessionStorage.getItem('dr_results');
             if (savedResults) {
@@ -260,12 +223,12 @@
                         showResults(parsed);
                     }
                 } catch (e) {
-                    console.error("Gagal memuat riwayat hasil.");
+                    console.error("Could not load saved results");
                 }
             }
         });
 
-        // Image Modal
+        // Modal Logic
         const modal = document.getElementById("image-modal");
         const modalImg = document.getElementById("modal-img");
         const closeModal = document.getElementById("close-modal");
